@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Absensi - Guru</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .card {
+            margin-top: 60px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <span class="navbar-brand">Absensi Guru</span>
+        <div class="d-flex">
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Konten Form -->
+<div class="container">
+    <div class="card p-4">
+        <h3 class="mb-4 text-center">Form Absensi Hari Ini</h3>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <!-- Modal trigger via JavaScript -->
+                <script>
+                    window.addEventListener('DOMContentLoaded', () => {
+                        const modal = new bootstrap.Modal(document.getElementById('thankYouModal'));
+                        modal.show();
+                    });
+                </script>
+            {% endif %}
+        {% endwith %}
+
+        <p class="text-muted text-center mb-4">Tanggal: {{ date.strftime('%d %B %Y') }}</p>
+
+        <form method="POST" onsubmit="return validateForm();">
+            <div class="mb-3">
+                <label for="jam_masuk" class="form-label">Jam Masuk</label>
+                <input type="time" class="form-control" name="jam_masuk" required>
+            </div>
+            <div class="mb-3">
+                <label for="jam_selesai" class="form-label">Jam Selesai</label>
+                <input type="time" class="form-control" name="jam_selesai" required>
+            </div>
+            <div class="mb-3">
+                <label for="keterangan" class="form-label">Keterangan</label>
+                <select class="form-select" name="keterangan" id="keterangan" onchange="toggleAlasan()" required>
+                    <option value="Hadir">Hadir</option>
+                    <option value="Izin">Izin</option>
+                    <option value="Sakit">Sakit</option>
+                    <option value="Alpha">Alpha</option>
+                </select>
+            </div>
+            <div class="mb-3" id="alasanDiv" style="display: none;">
+                <label for="alasan" class="form-label">Alasan Izin</label>
+                <input type="text" class="form-control" name="alasan" id="alasan">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Kirim Absensi</button>
+        </form>
+    </div>
+
+    <a href="{{ url_for('ganti_password') }}" class="btn btn-outline-warning w-100 mt-2">Ganti Password</a>
+    <footer>© {{ date.year }} Absensi Guru MTs NII</footer>
+</div>
+
+<!-- Modal Terima Kasih -->
+<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="thankYouLabel">Terima Kasih!</h5>
+      </div>
+      <div class="modal-body text-center">
+        <p class="fs-5">Terima kasih sudah mengisi absensi 🙏</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success w-100" data-bs-dismiss="modal">Oke</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function toggleAlasan() {
+        const ket = document.getElementById("keterangan").value;
+        const alasanDiv = document.getElementById("alasanDiv");
+        if (ket === "Izin") {
+            alasanDiv.style.display = "block";
+            document.getElementById("alasan").setAttribute("required", "true");
+        } else {
+            alasanDiv.style.display = "none";
+            document.getElementById("alasan").removeAttribute("required");
+        }
+    }
+
+    function validateForm() {
+        const ket = document.getElementById("keterangan").value;
+        const alasan = document.getElementById("alasan").value;
+        if (ket === "Izin" && alasan.trim() === "") {
+            alert("Harap isi alasan izin.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
