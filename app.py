@@ -60,9 +60,21 @@ def init_db():
         cur.execute("SELECT * FROM guru")
         if not cur.fetchone():
             guru_list = [
-                ('Ahmad S.', 'Matematika'),
-                ('Budi R.', 'Bahasa Indonesia'),
-                ('Citra L.', 'IPA')
+                ('Ahmad Jalaludin', 'Pendidikan Kewarganegaraan')
+                ('Ariz Kurniawan', 'PJOK')
+                ('Delia Puji Permata Sari', 'Matematika'),
+                ('Denisa Aprilian Danis', 'IPS'),
+                ('Deni Alextria', 'Bahasa Indonesia'),
+                ('Heriyanto', 'TIK'),
+                ('Haris', 'Tahfidz Qur`an'),
+                ('Lilis', 'Akidah/Akhlak'),
+                ('Muhamad Anas', 'Bahasa Arab'),
+                ('Nani Suryani', 'SKI'),
+                ('Rian Surya', 'Seni Budaya'),
+                ('Rika Siska Putri' 'Bahasa Sunda'),
+                ('Sinta Sukmawati', 'IPA'),
+                ('Topik Hidayat', 'FIKIH'),
+                ('Wahyu', 'Qur`an Hadist'),
             ]
             for nama, mapel in guru_list:
                 cur.execute("INSERT INTO guru (nama, mapel) VALUES (?, ?)", (nama, mapel))
