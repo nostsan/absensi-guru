@@ -36,16 +36,26 @@
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password" required>
                             </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="showPassword">
+                                <label class="form-check-label" for="showPassword">Tampilkan Password</label>
+                            </div>
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>
                     </div>
                 </div>
-
                 <p class="mt-3 text-white text-shadow">
                     Login sebagai <strong>admin</strong> atau <strong>guru</strong>
                 </p>
             </div>
         </div>
     </div>
+    <script>
+    document.getElementById('showPassword').addEventListener('change', function () {
+        const passwordField = document.querySelector('input[name="password"]');
+        passwordField.type = this.checked ? 'text' : 'password';
+    });
+    </script>
+
 </body>
 </html>
